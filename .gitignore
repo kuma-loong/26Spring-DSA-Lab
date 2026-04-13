@@ -1,0 +1,11 @@
+# Mac OS
+*.DS_Store
+
+# VSccode configure
+.vscode/
+
+# Compiled Object files
+*.o
+*.obj
+*.out
+
