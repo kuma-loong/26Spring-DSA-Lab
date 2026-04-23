@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 typedef struct TreeNode {
     int val;
@@ -41,8 +42,28 @@ TreeNode* buildTree(char** input, int n) {
     return root;
 }
 
+int maxSum = INT_MIN; 
+
+int dfs(TreeNode* root) {
+    if (root == NULL) return 0;
+
+    int leftLimit = dfs(root->left);
+    int leftGain = leftLimit > 0 ? leftLimit : 0;
+    
+    int rightLimit = dfs(root->right);
+    int rightGain = rightLimit > 0 ? rightLimit : 0;
+
+    int currentPathSum = root->val + leftGain + rightGain;
+    if (currentPathSum > maxSum) maxSum = currentPathSum;
+
+    return root->val + (leftGain > rightGain ? leftGain : rightGain);
+}
+
 int maxPathSum(TreeNode* root) {
-    // TODO
+    maxSum = INT_MIN;
+    if (root == NULL) return 0;
+    dfs(root);
+    return maxSum;
 }
 
 void freeTree(TreeNode* root) {
