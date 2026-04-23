@@ -8,8 +8,20 @@ struct TreeNode {
  };
 
 /******************* 染色 *******************/
+int dfs(struct TreeNode* root, int** ops, int opsSize) {
+    if (root == NULL) return 0;
+    int color = 0;
+    for (int i = opsSize - 1; i >= 0; i--) {
+        if (ops[i][1] <= root->val && root->val <= ops[i][2]) {
+            color = ops[i][0];
+            break;
+        }
+    }
+    return color + dfs(root->left, ops, opsSize) + dfs(root->right, ops, opsSize);
+}
+
 void getNumber(struct TreeNode* root, int** ops, int opsSize){
-    // TODO
+    printf("%d\n", dfs(root, ops, opsSize));
 }
 /*****************************************************/
 
