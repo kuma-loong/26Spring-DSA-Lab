@@ -109,7 +109,7 @@ void TraverseList(Node *head) {
     Node *current = head;
     printf("图书列表:\n");
     while(current != NULL) {
-        printf("书号: %s,书名: %s,作者: %s,库存: %d\n", 
+        printf("书号:%s,书名:%s,作者:%s,库存:%d\n", 
                current->book.bookId, current->book.title, 
                current->book.author, current->book.stock);
         current = current->next;
@@ -138,7 +138,7 @@ int main() {
     Node *foundBook = FindBook(head, bookId_find);
     if (foundBook != NULL) {
         printf("查找的图书信息:\n");
-        printf("书号: %s,书名: %s,作者: %s,库存: %d\n", 
+        printf("书号:%s,书名:%s,作者:%s,库存:%d\n", 
                foundBook->book.bookId, foundBook->book.title, 
                foundBook->book.author, foundBook->book.stock);
     }
