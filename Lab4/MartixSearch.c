@@ -3,7 +3,21 @@
 #include <stdbool.h>
 
 bool searchMatrix(int** matrix, int matrixRowSize, int matrixColSize, int target) {
-    // TODO
+    int row = 0;
+    int col = matrixColSize - 1;
+
+    while (row < matrixRowSize && col >= 0) {
+        if (matrix[row][col] == target) {
+            return true;
+        }
+        if (matrix[row][col] > target) {
+            col--;
+        } else {
+            row++;
+        }
+    }
+
+    return false;
 }
 
 int main() {

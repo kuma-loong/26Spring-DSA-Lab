@@ -27,37 +27,56 @@ void bloom_free(BloomFilter *filter) {
 
 // 设置位数组中的某一位
 void set_bit(BloomFilter *filter, unsigned int index) {
-    // TODO
+    index %= filter->size;
+    filter->bit_array[index / 8] |= (unsigned char)(1u << (index % 8));
 }
 
 // 检查位数组中的某一位
 int get_bit(BloomFilter *filter, unsigned int index) {
-    // TODO
+    index %= filter->size;
+    return (filter->bit_array[index / 8] & (unsigned char)(1u << (index % 8))) != 0;
 }
 
 // 哈希函数1
 unsigned int hash1(const char *str) {
-    // TODO
+    unsigned int hash = 5381;
+    while (*str) {
+        hash = ((hash << 5) + hash) + (unsigned char)(*str++);
+    }
+    return hash;
 }
 
 // 哈希函数2
 unsigned int hash2(const char *str) {
-    // TODO
+    unsigned int hash = 0;
+    while (*str) {
+        hash = (unsigned char)(*str++) + (hash << 6) + (hash << 16) - hash;
+    }
+    return hash;
 }
 
 // 哈希函数3
 unsigned int hash3(const char *str) {
-    // TODO
+    unsigned int hash = 2166136261u;
+    while (*str) {
+        hash ^= (unsigned char)(*str++);
+        hash *= 16777619u;
+    }
+    return hash;
 }
 
 // 添加元素到布隆过滤器
 void bloom_add(BloomFilter *filter, const char *item) {
-    // TODO
+    set_bit(filter, hash1(item));
+    set_bit(filter, hash2(item));
+    set_bit(filter, hash3(item));
 }
 
 // 检查元素是否可能在布隆过滤器中
 int bloom_check(BloomFilter *filter, const char *item) {
-    // TODO
+    return get_bit(filter, hash1(item)) &&
+           get_bit(filter, hash2(item)) &&
+           get_bit(filter, hash3(item));
 }
 
 int main() {
